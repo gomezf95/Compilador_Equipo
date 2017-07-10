@@ -22,6 +22,7 @@ public class a_lexico {
     
     a_string as=new a_string();
     a_identificador ai=new a_identificador();
+    a_numeros an=new a_numeros();
     
     
     public String a_token(String token, int line)
@@ -50,7 +51,7 @@ public class a_lexico {
                 }
                 else
                 {
-                    if(aa.analizar(token))
+                    if(an.analizar(token))
                     {
 //                        salida="El token: "+token+" es una operacion aritmetica";
                         agregar(token,"Aritmetica");
