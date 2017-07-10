@@ -30,7 +30,7 @@ public class a_string {
         
         //creacion de la relacion q0 y q4
         c=new relacion();
-        c.valor="2345";
+        c.valor="234";
         inicio.sig2=c;
         c.sig=a;
         
@@ -42,7 +42,7 @@ public class a_string {
         
         //creacion de la relacion q1 y q1
         c=new relacion ();
-        c.valor="2345";
+        c.valor="234";
         a.sig2=c;
         c.sig=a;
         
@@ -59,7 +59,7 @@ public class a_string {
         
         //creacion de la relacion q2 y q4
         c= new relacion();
-        c.valor="12345";
+        c.valor="1234";
         a.sig1=c;
         
         //creacion del nodo q4
@@ -71,7 +71,7 @@ public class a_string {
         
         //creacion de la relacion q4 y q4
         c= new relacion();
-        c.valor="12345";
+        c.valor="1234";
         a.sig2=c;
         c.sig=a;
         
@@ -81,25 +81,20 @@ public class a_string {
     public boolean analizar(String token)
     {
         
-//        System.out.println("Inicio automata para identificar strings");
         boolean resultado=false;
         int tipo, tam;
         a=inicio;
         for(int i=0;i<token.length();i++)
         {
-//            System.out.println("Char a traducir: "+token.charAt(i));
             tipo=traducir(token.charAt(i));
-//            System.out.println("El char es de tipo: "+tipo);
 
             if(a.sig1!=null)
             {
                 tam=a.sig1.valor.length();
                 for(int x=0; x<tam; x++)
                 {
-//                    System.out.println("tipo a evaluar: "+a.sig1.valor.charAt(x) +" tipo de chars: "+tipo);
                     if(Integer.parseInt(a.sig1.valor.charAt(x)+"")==tipo)
                     {
-//                        System.out.println("Se fue por sig 1");
                         x=a.sig1.valor.length();
                         a=a.sig1.sig;
                         resultado=a.terminal;
@@ -112,10 +107,8 @@ public class a_string {
                 tam=a.sig2.valor.length();
                 for(int x=0; x<tam; x++)
                 {
-//                    System.out.println("tipo a evaluar: "+a.sig2.valor.charAt(x) +" tipo de char: "+tipo);
                     if(Integer.parseInt(a.sig2.valor.charAt(x)+"")==tipo)
                     {
-//                        System.out.println("se fue por sig 2");
                         x=a.sig2.valor.length();
                         a=a.sig2.sig;
                         resultado=a.terminal;
@@ -130,34 +123,28 @@ public class a_string {
     {
         int resultado=0;
         
-        if(x==34)
+        switch (x)
         {
-            resultado=1;
-        }
-        else
-        {
-            if(x>=48 && x<=57)
-            {
+            case '"':
+                resultado=1;
+            break;
+            
+            case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h': case 'i':
+            case 'j': case 'k': case 'l': case 'm': case 'n': case 'ñ': case 'o': case 'p': case 'q': 
+            case 'r': case 's': case 't': case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':
+            case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G': case 'H': case 'I':
+            case 'J': case 'K': case 'L': case 'M': case 'N': case 'Ñ': case 'O': case 'P': case 'Q': 
+            case 'R': case 'S': case 'T': case 'U': case 'V': case 'W': case 'X': case 'Y': case 'Z':
+                resultado=4;
+            break;
+                
+            case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': case '0': 
                 resultado=3;
-            }
-            else
-            {
-                if(x>=97 && x<=122)
-                {
-                    resultado=4;
-                }
-                else
-                {
-                    if(x>=65 && x<=90)
-                    {
-                        resultado=5;
-                    }
-                    else
-                    {
-                        resultado=2;
-                    }
-                }
-            }
+            break;
+                
+            default:
+                resultado=2;
+            break;
         }
         
         return resultado;

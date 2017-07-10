@@ -16,58 +16,64 @@ public class a_identificador {
     
     public a_identificador(){
     
-        //creacion del nodo q0
-        a= new nodo();
+        //Creacion del nodo q0
+        a=new nodo();
         a.nombre="q0";
-        a.terminal=true;
+        a.terminal=false;
         this.inicio=a;
         
-        //creacion de la relacion q0 y q0
+        //creacion de la ralacion q0 y q1
         c=new relacion();
         c.valor="12";
-        a.sig2=c;
-        c.sig=a;
-        
-        //creacion de la relacion q0 y q1
-        c=new relacion();
-        c.valor="345";
         a.sig1=c;
+        
+        //creacion de la relacion q0 y q2
+        c=new relacion();
+        c.valor="34";
+        a.sig2=c;
         
         //creacion del nodo q1
         a=new nodo();
         a.nombre="q1";
-        a.terminal=false;
+        a.terminal=true;
         inicio.sig1.sig=a;
         
-        //creacion de la relacion q1 y q1 
+        //creacion de la relacion q1 y q1
         c=new relacion();
-        c.valor="12345";
+        c.valor="123";
         a.sig2=c;
         c.sig=a;
+        
+        //creacion de la relacion q1 y q2
+        c=new relacion();
+        c.valor="4";
+        a.sig1=c;
+        
+        //creacion del nodo q2
+        a=new nodo();
+        a.nombre="q2";
+        a.terminal=false;
+        inicio.sig1.sig.sig1.sig=a;
+        inicio.sig2.sig=a;
     }
     
     public boolean analizar(String token)
     {
         
-//        System.out.println("Inicio automata para identificar identificadores");
         boolean resultado=false;
         int tipo, tam;
         a=inicio;
         for(int i=0;i<token.length();i++)
         {
-//            System.out.println("Char a traducir: "+token.charAt(i));
             tipo=traducir(token.charAt(i));
-//            System.out.println("El char es de tipo: "+tipo);
 
             if(a.sig1!=null)
             {
                 tam=a.sig1.valor.length();
                 for(int x=0; x<tam; x++)
                 {
-//                    System.out.println("tipo a evaluar: "+a.sig1.valor.charAt(x) +" tipo de chars: "+tipo);
                     if(Integer.parseInt(a.sig1.valor.charAt(x)+"")==tipo)
                     {
-//                        System.out.println("Se fue por sig 1");
                         x=a.sig1.valor.length();
                         a=a.sig1.sig;
                         resultado=a.terminal;
@@ -80,10 +86,8 @@ public class a_identificador {
                 tam=a.sig2.valor.length();
                 for(int x=0; x<tam; x++)
                 {
-//                    System.out.println("tipo a evaluar: "+a.sig2.valor.charAt(x) +" tipo de chars: "+tipo);
                     if(Integer.parseInt(a.sig2.valor.charAt(x)+"")==tipo)
                     {
-//                        System.out.println("se fue por sig 2");
                         x=a.sig2.valor.length();
                         a=a.sig2.sig;
                         resultado=a.terminal;
@@ -98,27 +102,27 @@ public class a_identificador {
     {
         int resultado=0;
         
-        if(x>=97 && x<=122)
+        switch (x)
         {
-            resultado=1;
-        }
-        else 
-        {
-            if(x>=65 && x<=90)
-            {
+            case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h': case 'i':
+            case 'j': case 'k': case 'l': case 'm': case 'n': case 'ñ': case 'o': case 'p': case 'q': 
+            case 'r': case 's': case 't': case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':
+                resultado=1;
+            break;
+            
+            case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G': case 'H': case 'I':
+            case 'J': case 'K': case 'L': case 'M': case 'N': case 'Ñ': case 'O': case 'P': case 'Q': 
+            case 'R': case 'S': case 'T': case 'U': case 'V': case 'W': case 'X': case 'Y': case 'Z':
                 resultado=2;
-            }
-            else
-            {
-                if(x>=48 && x<=57)
-                {
-                    resultado=3;
-                }
-                else
-                {
-                    resultado=4;
-                }
-            }
+            break;
+                
+            case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': case '0': 
+                resultado=3;
+            break;
+                
+            default:
+                resultado=4;
+            break;
         }
         
         return resultado;

@@ -22,7 +22,6 @@ public class a_lexico {
     
     a_string as=new a_string();
     a_identificador ai=new a_identificador();
-    a_aritmeticas aa=new a_aritmeticas();
     
     
     public String a_token(String token, int line)
