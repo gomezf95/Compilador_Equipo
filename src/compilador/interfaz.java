@@ -7,13 +7,10 @@ package compilador;
 
 import java.awt.Color;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -55,7 +52,9 @@ public class interfaz extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Compilador");
+        setMaximumSize(new java.awt.Dimension(900, 700));
         setMinimumSize(new java.awt.Dimension(900, 700));
+        setPreferredSize(new java.awt.Dimension(900, 700));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -162,11 +161,11 @@ public class interfaz extends javax.swing.JFrame {
         return codigo;
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-if(jTextArea1.getText().equals(""))
+    if(jTextArea1.getText().equals(""))//condicional para cargar codigo guardado en caso de que este vacia el area de trabajo
         {
             cargar();
         }
-        else
+        else//si tiene algo entonces guarda lo que tiene el area de trabajo
         {
             guardar();
         }
@@ -174,55 +173,72 @@ if(jTextArea1.getText().equals(""))
         jLabel1.setVisible(true);
         jTextArea2.setVisible(true);
         try {
-            String linea, terminal="", codigo="", sep, str="";
-            boolean flag=false;
+            String linea, terminal="", codigo="", sep, str="", line_pc="";
+            boolean flag=false, flag2=false;
             int line=0;
+            
+            //codigo para cargar el codigo guardado en el archivo en el buffer 
             BufferedReader br = null;
             br = new BufferedReader (new FileReader ("Codigo.txt"));
             while((linea= br.readLine()) != null)
             {
-                codigo+=linea;
+                codigo+=linea+"\n";
             }
-            StringTokenizer pc=new StringTokenizer(codigo, ";");
-            
-            while(pc.hasMoreElements())
+            //codigo para separar el codigo en saltos de linea
+            StringTokenizer sl=new StringTokenizer(codigo, "\n");
+            while(sl.hasMoreElements())
             {
                 line++;
-                sep=separar_igual(pc.nextToken());
-                System.out.println(sep);
-                StringTokenizer esp=new StringTokenizer(sep);
-                while(esp.hasMoreElements())
+                //codigo para separar las lineas de codigo del ;
+                StringTokenizer pc=new StringTokenizer (sl.nextToken(), ";");
+                while(pc.hasMoreElements())
                 {
-                    if(flag)
+                    //llamada al metodo que separa los signos de las lineas de codigo
+                    sep=separar_igual(pc.nextToken());
+                    System.out.println(sep);
+                    //codigo para separar el codigo en espacios y mandarlos al analizador lexico
+                    StringTokenizer esp=new StringTokenizer(sep);
+                    while(esp.hasMoreElements())
                     {
-                        str+=esp.nextToken();
-                        if(str.charAt(str.length()-1)==34)
+                        if(flag)
                         {
-                            terminal+=al.a_token(str, line)+"\n";
-                            flag=false;
-                        }
-                        else
-                        {
-                            if(!esp.hasMoreElements())
+                            str+=esp.nextToken();
+                            if(str.charAt(str.length()-1)=='"')
                             {
                                 terminal+=al.a_token(str, line)+"\n";
                                 flag=false;
                             }
-                        }
-                    }
-                    else
-                    {
-                        str=esp.nextToken();
-                        if(str.charAt(0)==34)
-                        {
-                            flag=true;
+                            else
+                            {
+                                if(!esp.hasMoreElements())
+                                {
+                                    terminal+=al.a_token(str, line)+"\n";
+                                    flag=false;
+                                }
+                            }
                         }
                         else
                         {
-                            terminal+=al.a_token(str, line)+"\n";
+                            str=esp.nextToken();
+                            if(str.charAt(0)=='"')
+                            {
+                                if(str.charAt(str.length()-1)=='"')
+                                {
+                                    terminal+=al.a_token(str, line)+"\n";
+                                }
+                                else
+                                {
+                                    flag=true;
+                                }
+                            }
+                            else
+                            {
+                                terminal+=al.a_token(str, line)+"\n";
+                            }
                         }
                     }
                 }
+                
             }
             //Codigo para quitarle los saltos de linea que tiene la cadena terminal
                 StringTokenizer ter= new StringTokenizer(terminal, "\n");
@@ -231,7 +247,8 @@ if(jTextArea1.getText().equals(""))
                 {
                     terminal+=ter.nextToken()+"\n";
                 }
-                
+            
+            //codigo para imprimir la salida en la terminal
             if(terminal.equals(""))
             {
                 jTextArea2.setForeground(Color.GREEN);
@@ -248,13 +265,15 @@ if(jTextArea1.getText().equals(""))
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    //metodo para separar con espacios los signos igual, aritmeticos,  parentesis 
     public String separar_igual(String token)
     {
         String resultado="";
         
         for(int x=0; x<token.length();x++)
         {
-            if(token.charAt(x)==61 || token.charAt(x)==40 || token.charAt(x)==41)
+            if(token.charAt(x)=='=' || token.charAt(x)=='(' || token.charAt(x)==')' || 
+               token.charAt(x)=='+' || token.charAt(x)=='-' || token.charAt(x)=='*' || token.charAt(x)=='/')
             {
                 resultado+=" "+token.charAt(x)+" "; 
             }

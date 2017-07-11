@@ -80,40 +80,49 @@ public class a_string {
     
     public boolean analizar(String token)
     {
-        
+        System.out.println("Inicio del automata string");
         boolean resultado=false;
         int tipo, tam;
         a=inicio;
         for(int i=0;i<token.length();i++)
         {
+            boolean bug=true;
             tipo=traducir(token.charAt(i));
 
-            if(a.sig1!=null)
+            if(a.sig1!=null && bug)
             {
                 tam=a.sig1.valor.length();
                 for(int x=0; x<tam; x++)
                 {
                     if(Integer.parseInt(a.sig1.valor.charAt(x)+"")==tipo)
                     {
+                        bug=false;
                         x=a.sig1.valor.length();
                         a=a.sig1.sig;
                         resultado=a.terminal;
+                        System.out.println(a.nombre);
                     }
                 }
             }
-            
-            if(a.sig2!=null)
-            {
-                tam=a.sig2.valor.length();
-                for(int x=0; x<tam; x++)
+                if(a.sig2!=null && bug)
                 {
-                    if(Integer.parseInt(a.sig2.valor.charAt(x)+"")==tipo)
+                    tam=a.sig2.valor.length();
+                    for(int x=0; x<tam; x++)
                     {
-                        x=a.sig2.valor.length();
-                        a=a.sig2.sig;
-                        resultado=a.terminal;
+                        if(Integer.parseInt(a.sig2.valor.charAt(x)+"")==tipo)
+                        {
+                            bug=false;
+                            x=a.sig2.valor.length();
+                            a=a.sig2.sig;
+                            resultado=a.terminal;
+                            System.out.println(a.nombre);
+                        }
                     }
                 }
+                
+            if(bug)
+            {
+                System.out.println("Error en el automata del string");  
             }
         }
         return resultado;

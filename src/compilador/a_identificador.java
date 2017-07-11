@@ -24,12 +24,12 @@ public class a_identificador {
         
         //creacion de la ralacion q0 y q1
         c=new relacion();
-        c.valor="12";
+        c.valor="1";
         a.sig1=c;
         
         //creacion de la relacion q0 y q2
         c=new relacion();
-        c.valor="34";
+        c.valor="23";
         a.sig2=c;
         
         //creacion del nodo q1
@@ -40,13 +40,13 @@ public class a_identificador {
         
         //creacion de la relacion q1 y q1
         c=new relacion();
-        c.valor="123";
+        c.valor="12";
         a.sig2=c;
         c.sig=a;
         
         //creacion de la relacion q1 y q2
         c=new relacion();
-        c.valor="4";
+        c.valor="3";
         a.sig1=c;
         
         //creacion del nodo q2
@@ -55,44 +55,60 @@ public class a_identificador {
         a.terminal=false;
         inicio.sig1.sig.sig1.sig=a;
         inicio.sig2.sig=a;
+        
+        //creacion de la relacion q2 a q2
+        c=new relacion();
+        c.valor="123";
+        a.sig2=c;
+        c.sig=a;
     }
     
     public boolean analizar(String token)
     {
-        
+        System.out.println("Inicio del automata identificador");
         boolean resultado=false;
         int tipo, tam;
         a=inicio;
         for(int i=0;i<token.length();i++)
         {
+            boolean bug=true;
             tipo=traducir(token.charAt(i));
 
-            if(a.sig1!=null)
+            if(a.sig1!=null && bug)
             {
                 tam=a.sig1.valor.length();
                 for(int x=0; x<tam; x++)
                 {
                     if(Integer.parseInt(a.sig1.valor.charAt(x)+"")==tipo)
                     {
+                        bug=false;
                         x=a.sig1.valor.length();
                         a=a.sig1.sig;
                         resultado=a.terminal;
+                        System.out.println(a.nombre);
                     }
                 }
             }
             
-            if(a.sig2!=null)
+            if(a.sig2!=null && bug)
             {
                 tam=a.sig2.valor.length();
                 for(int x=0; x<tam; x++)
                 {
                     if(Integer.parseInt(a.sig2.valor.charAt(x)+"")==tipo)
                     {
+                        bug=false;
                         x=a.sig2.valor.length();
                         a=a.sig2.sig;
                         resultado=a.terminal;
+                        System.out.println(a.nombre);
                     }
                 }
+            }
+            
+            if(bug)
+            {
+                System.out.println("Error en el automata del identificador");  
             }
         }
         return resultado;
@@ -107,21 +123,18 @@ public class a_identificador {
             case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h': case 'i':
             case 'j': case 'k': case 'l': case 'm': case 'n': case 'ñ': case 'o': case 'p': case 'q': 
             case 'r': case 's': case 't': case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':
-                resultado=1;
-            break;
-            
             case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G': case 'H': case 'I':
             case 'J': case 'K': case 'L': case 'M': case 'N': case 'Ñ': case 'O': case 'P': case 'Q': 
             case 'R': case 'S': case 'T': case 'U': case 'V': case 'W': case 'X': case 'Y': case 'Z':
-                resultado=2;
+                resultado=1;
             break;
                 
             case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': case '0': 
-                resultado=3;
+                resultado=2;
             break;
                 
             default:
-                resultado=4;
+                resultado=3;
             break;
         }
         

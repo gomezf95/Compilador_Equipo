@@ -19,7 +19,6 @@ public class a_lexico {
     String []p_reservadas={"ent", "cad", "flot", "inicio", "fin",
                                "si", "entonces", "mientras", "escribe",
                                "leer", "equi"};
-    
     a_string as=new a_string();
     a_identificador ai=new a_identificador();
     a_numeros an=new a_numeros();
@@ -33,46 +32,53 @@ public class a_lexico {
         if(p_reservada(token))
         {
 //            salida="El token "+token+" es una palabra reservada";
-            agregar(token,"Reservada");
+//            agregar(token,"Reservada");
         }
         else
         {
             if(as.analizar(token))
             {
 //                salida="El token "+token+" es una cadena de String";
-                agregar(token,"cadena");
+//                agregar(token,"cadena");
             }
             else
             {
                 if(ai.analizar(token))
                 {
 //                    salida="El token: "+token+" es un identificador";
-                    agregar(token,"identificador");
+//                    agregar(token,"identificador");
                 }
                 else
                 {
                     if(an.analizar(token))
                     {
-//                        salida="El token: "+token+" es una operacion aritmetica";
-                        agregar(token,"Aritmetica");
+//                        salida="El token: "+token+" es un numero";
+//                        agregar(token,"numero");
                     }
                     else 
                     {
                         if("(".equals(token) || ")".equals(token))
                         {
 //                            salida="El token: "+token+" es un parentesis";
-                            agregar(token,"parentesis");
+//                            agregar(token,"parentesis");
                         }
                         else
                         {
                            if("=".equals(token))
                            {
 //                               salida="El token: "+token+" es un igual";
-                               agregar(token,"igualdad");
+//                               agregar(token,"igualdad");
                            }
                            else
                            {
-                               salida="El token: "+token+" no se reconoce";
+                               if("+".equals(token) || "-".equals(token) || "*".equals(token) || "/".equals(token))
+                               {
+//                                   salida="El token: "+token+" es un signo";
+                               }
+                               else
+                               {
+                                   salida="Error en la linea: "+line+" en el token: "+token;
+                               }
                            }
                         }
                     }

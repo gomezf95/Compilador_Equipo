@@ -79,12 +79,13 @@ public class a_numeros {
         //creacion de la relacion q3 y q4
         c=new relacion();
         c.valor="23";
-        a.sig1=c;
+        a.sig3=c;
         
         //creacion de la relacion q3 y q3
         c=new relacion();
         c.valor="1";
         a.sig2=c;
+        c.sig=a;
         
         //creacion del nodo q4
         a=new nodo();
@@ -104,55 +105,64 @@ public class a_numeros {
     
     public boolean analizar(String token)
     {
-        
+        System.out.println("Inicio del automata numeros con la cadena "+token);
         boolean resultado=false;
         int tipo, tam;
         a=inicio;
         for(int i=0;i<token.length();i++)
         {
+            boolean bug=true;
             tipo=traducir(token.charAt(i));
-
-            if(a.sig1!=null)
+            System.out.println(tipo+" "+token.charAt(i));
+            if(a.sig1!=null && bug)
             {
                 tam=a.sig1.valor.length();
                 for(int x=0; x<tam; x++)
                 {
                     if(Integer.parseInt(a.sig1.valor.charAt(x)+"")==tipo)
                     {
-                        x=a.sig1.valor.length();
+                        bug=false;
+                        x=tam;
                         a=a.sig1.sig;
                         resultado=a.terminal;
+                        System.out.println(a.nombre);
                     }
                 }
             }
-            
-            if(a.sig2!=null)
-            {
-                tam=a.sig2.valor.length();
-                for(int x=0; x<tam; x++)
+                if(a.sig2!=null && bug)
                 {
-                    if(Integer.parseInt(a.sig2.valor.charAt(x)+"")==tipo)
+                    tam=a.sig2.valor.length();
+                    for(int x=0; x<tam; x++)
                     {
-                        x=a.sig2.valor.length();
-                        a=a.sig2.sig;
-                        resultado=a.terminal;
+                        if(Integer.parseInt(a.sig2.valor.charAt(x)+"")==tipo)
+                        {
+                            bug=false;
+                            x=a.sig2.valor.length();
+                            a=a.sig2.sig;
+                            resultado=a.terminal;
+                            System.out.println(a.nombre);
+                        }
                     }
                 }
-            }
-            
-            if(a.sig3!=null)
-            {
-                tam=a.sig3.valor.length();
-                for(int x=0; x<tam; x++)
-                {
-                    if(Integer.parseInt(a.sig3.valor.charAt(x)+"")==tipo)
+                    if(a.sig3!=null && bug)
                     {
-                        x=a.sig3.valor.length();
-                        a=a.sig3.sig;
-                        resultado=a.terminal;
+                        tam=a.sig3.valor.length();
+                        for(int x=0; x<tam; x++)
+                        {
+                            if(Integer.parseInt(a.sig3.valor.charAt(x)+"")==tipo)
+                            {
+                                bug=false;
+                                x=a.sig3.valor.length();
+                                a=a.sig3.sig;
+                                resultado=a.terminal;
+                                System.out.println(a.nombre);
+                            }
+                        }
                     }
-                }
-            }
+                    if(bug)
+                    {
+                        System.out.println("Error en el automata de los numeros");
+                    }
         }
         return resultado;
     }
@@ -169,6 +179,7 @@ public class a_numeros {
                 
             case '.':
                 resultado=2;
+            break;
                 
             default:
                 resultado=3;
