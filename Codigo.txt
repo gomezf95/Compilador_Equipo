@@ -1,1 +1,5 @@
-9.3dde
+1<2
+while(valor1==valor2)
+{
+sentencias
+}

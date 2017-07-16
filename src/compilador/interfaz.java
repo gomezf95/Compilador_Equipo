@@ -174,7 +174,7 @@ public class interfaz extends javax.swing.JFrame {
         jTextArea2.setVisible(true);
         try {
             String linea, terminal="", codigo="", sep, str="", line_pc="";
-            boolean flag=false, flag2=false;
+            boolean flag=false;
             int line=0;
             
             //codigo para cargar el codigo guardado en el archivo en el buffer 
@@ -194,8 +194,8 @@ public class interfaz extends javax.swing.JFrame {
                 while(pc.hasMoreElements())
                 {
                     //llamada al metodo que separa los signos de las lineas de codigo
-                    sep=separar_igual(pc.nextToken());
-                    System.out.println(sep);
+                    sep=separar(pc.nextToken());
+//                    System.out.println(sep);
                     //codigo para separar el codigo en espacios y mandarlos al analizador lexico
                     StringTokenizer esp=new StringTokenizer(sep);
                     while(esp.hasMoreElements())
@@ -238,7 +238,8 @@ public class interfaz extends javax.swing.JFrame {
                         }
                     }
                 }
-                
+            System.out.println();
+            al.comentario_dd=true;
             }
             //Codigo para quitarle los saltos de linea que tiene la cadena terminal
                 StringTokenizer ter= new StringTokenizer(terminal, "\n");
@@ -266,16 +267,82 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //metodo para separar con espacios los signos igual, aritmeticos,  parentesis 
-    public String separar_igual(String token)
+    public String separar(String token)
     {
         String resultado="";
         
         for(int x=0; x<token.length();x++)
         {
             if(token.charAt(x)=='=' || token.charAt(x)=='(' || token.charAt(x)==')' || 
-               token.charAt(x)=='+' || token.charAt(x)=='-' || token.charAt(x)=='*' || token.charAt(x)=='/')
+               token.charAt(x)=='+' || token.charAt(x)=='-' || token.charAt(x)=='*' || 
+               token.charAt(x)=='/' || token.charAt(x)=='<' || token.charAt(x)== '>'||
+               token.charAt(x)=='{' || token.charAt(x)=='}')
             {
-                resultado+=" "+token.charAt(x)+" "; 
+                if(token.length()-x >= 2)
+                {
+                    if(token.charAt(x)=='/' && token.charAt(x+1)=='/')
+                    {
+                        resultado+=" "+token.charAt(x)+token.charAt(x+1)+" ";
+                        x++;
+                    }
+                    else
+                    {
+                        if(token.charAt(x)=='/' && token.charAt(x+1)=='*')
+                        {
+                            resultado+=" "+token.charAt(x)+token.charAt(x+1)+" ";
+                            x++;   
+                        }
+                        else
+                        {
+                            if(token.charAt(x)=='*' && token.charAt(x+1)=='/')
+                            {
+                                resultado+=" "+token.charAt(x)+token.charAt(x+1)+" ";
+                                x++;
+                            }
+                            else
+                            {
+                                if(token.charAt(x)=='>' && token.charAt(x+1)=='=')
+                                {
+                                     resultado+=" "+token.charAt(x)+token.charAt(x+1)+" ";
+                                    x++;
+                                }
+                                else
+                                {
+                                    if(token.charAt(x)=='<' && token.charAt(x+1)=='=')
+                                    {
+                                        resultado+=" "+token.charAt(x)+token.charAt(x+1)+" ";
+                                        x++;
+                                    }
+                                    else
+                                    {
+                                        if(token.charAt(x)=='>' && token.charAt(x+1)=='<')
+                                        {
+                                            resultado+=" "+token.charAt(x)+token.charAt(x+1)+" ";
+                                            x++;
+                                        }
+                                        else
+                                        {
+                                            if(token.charAt(x)=='=' && token.charAt(x+1)=='=')
+                                            {
+                                                resultado+=" "+token.charAt(x)+token.charAt(x+1)+" ";
+                                                x++;
+                                            }
+                                            else
+                                            {     
+                                                resultado+=" "+token.charAt(x)+" ";  
+                                            }
+                                        }
+                                    }
+                                }                               
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    resultado+=" "+token.charAt(x)+" ";
+                }
+
             }
             else
             {

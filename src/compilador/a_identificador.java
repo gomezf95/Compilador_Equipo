@@ -65,7 +65,7 @@ public class a_identificador {
     
     public boolean analizar(String token)
     {
-        System.out.println("Inicio del automata identificador");
+//        System.out.println("Inicio del automata identificador");
         boolean resultado=false;
         int tipo, tam;
         a=inicio;
@@ -85,7 +85,7 @@ public class a_identificador {
                         x=a.sig1.valor.length();
                         a=a.sig1.sig;
                         resultado=a.terminal;
-                        System.out.println(a.nombre);
+//                        System.out.println(a.nombre);
                     }
                 }
             }
@@ -101,7 +101,7 @@ public class a_identificador {
                         x=a.sig2.valor.length();
                         a=a.sig2.sig;
                         resultado=a.terminal;
-                        System.out.println(a.nombre);
+//                        System.out.println(a.nombre);
                     }
                 }
             }

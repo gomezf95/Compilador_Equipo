@@ -16,6 +16,7 @@ public class a_lexico {
     String []p_reservadas={"ent", "cad", "flot", "inicio", "fin",
                                "si", "entonces", "mientras", "escribe",
                                "leer", "equi"};
+    String []op_logicos={">", ">=", "<", "<=", "><", "=="};
     a_string as=new a_string();
     a_identificador ai=new a_identificador();
     a_numeros an=new a_numeros();
@@ -57,7 +58,7 @@ public class a_lexico {
         
         if(comentario_dd && comentario_da && !token.equals("*/"))
         {
-            System.out.print(token);
+            System.out.print(token+" ");
             if(p_reservada(token))
             {
     //            salida="El token "+token+" es una palabra reservada";

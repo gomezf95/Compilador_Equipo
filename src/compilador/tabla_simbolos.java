@@ -17,10 +17,10 @@ public class tabla_simbolos extends javax.swing.JFrame {
     /**
      * Creates new form tabla_simbolos
      */
-    public tabla_simbolos() {
-        initComponents();
-        llenartabla();
-    }
+//    public tabla_simbolos() {
+//        initComponents();
+//        llenartabla();
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,44 +66,44 @@ public class tabla_simbolos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    private void llenartabla(){
-    a_lexico lexico2 = new a_lexico();
-        Hashtable tabla2 = lexico2.tabla();
-        Enumeration<a_lexico.Tokens> nombres = tabla2.elements();
-        Enumeration<Integer> claves = tabla2.keys();
-        a_lexico.Tokens auxiliar;
-        int tam = tabla2.size(), contador = 0;
-        String token[][] = new String[tam][5];
-        String token2[][] = new String[tam][5];
-        while (nombres.hasMoreElements()) {
-            auxiliar = nombres.nextElement();
-            int llave = claves.nextElement();
-            int clave = auxiliar.clave;
-            String palabra = auxiliar.palabra;
-            String descripcion = auxiliar.descripcion;
-            token[contador][4] = "" + llave;
-            token[contador][3] = "Id " + clave;
-            token[contador][0] = "" + palabra;
-            token[contador][1] = "" + descripcion;
-            token[contador][2] = "" + palabra.length();
-            if(clave<=0){
-                token[contador][1]="Error";
-            }
-            contador++;
-        }
-        for (int i = 0; i < tam; i++) {
-            for (int j = 0; j < 5; j++) {
-                token2[tam-1-i][j] = token[i][j];
-            }
-        }
-        
-        for (int i = 0; i < tam; i++) {
-            for (int j = 0; j < 5; j++) {
-                TablaLexico.setValueAt(token2[i][j], i,j);
-            }
-        }
-}
+//    
+//    private void llenartabla(){
+//    a_lexico lexico2 = new a_lexico();
+////        Hashtable tabla2 = lexico2.tabla();
+//        Enumeration<a_lexico.Tokens> nombres = tabla2.elements();
+//        Enumeration<Integer> claves = tabla2.keys();
+//        a_lexico.Tokens auxiliar;
+//        int tam = tabla2.size(), contador = 0;
+//        String token[][] = new String[tam][5];
+//        String token2[][] = new String[tam][5];
+//        while (nombres.hasMoreElements()) {
+//            auxiliar = nombres.nextElement();
+//            int llave = claves.nextElement();
+//            int clave = auxiliar.clave;
+//            String palabra = auxiliar.palabra;
+//            String descripcion = auxiliar.descripcion;
+//            token[contador][4] = "" + llave;
+//            token[contador][3] = "Id " + clave;
+//            token[contador][0] = "" + palabra;
+//            token[contador][1] = "" + descripcion;
+//            token[contador][2] = "" + palabra.length();
+//            if(clave<=0){
+//                token[contador][1]="Error";
+//            }
+//            contador++;
+//        }
+//        for (int i = 0; i < tam; i++) {
+//            for (int j = 0; j < 5; j++) {
+//                token2[tam-1-i][j] = token[i][j];
+//            }
+//        }
+//        
+//        for (int i = 0; i < tam; i++) {
+//            for (int j = 0; j < 5; j++) {
+//                TablaLexico.setValueAt(token2[i][j], i,j);
+//            }
+//        }
+//}
     /**
      * @param args the command line arguments
      */

@@ -105,7 +105,7 @@ public class a_numeros {
     
     public boolean analizar(String token)
     {
-        System.out.println("Inicio del automata numeros con la cadena "+token);
+//        System.out.println("Inicio del automata numeros con la cadena "+token);
         boolean resultado=false;
         int tipo, tam;
         a=inicio;
@@ -113,7 +113,7 @@ public class a_numeros {
         {
             boolean bug=true;
             tipo=traducir(token.charAt(i));
-            System.out.println(tipo+" "+token.charAt(i));
+//            System.out.println(tipo+" "+token.charAt(i));
             if(a.sig1!=null && bug)
             {
                 tam=a.sig1.valor.length();
@@ -125,7 +125,7 @@ public class a_numeros {
                         x=tam;
                         a=a.sig1.sig;
                         resultado=a.terminal;
-                        System.out.println(a.nombre);
+//                        System.out.println(a.nombre);
                     }
                 }
             }
@@ -140,7 +140,7 @@ public class a_numeros {
                             x=a.sig2.valor.length();
                             a=a.sig2.sig;
                             resultado=a.terminal;
-                            System.out.println(a.nombre);
+//                            System.out.println(a.nombre);
                         }
                     }
                 }
@@ -155,7 +155,7 @@ public class a_numeros {
                                 x=a.sig3.valor.length();
                                 a=a.sig3.sig;
                                 resultado=a.terminal;
-                                System.out.println(a.nombre);
+//                                System.out.println(a.nombre);
                             }
                         }
                     }
