@@ -5,15 +5,12 @@
  */
 package compilador;
 
-import java.util.Hashtable;
 
 /**
  *
  * @author Edaniel
  */
 public class a_lexico {
-    
-    private final Hashtable<Integer, Tokens> tabla = new Hashtable<>();
     int instruccion = 0;
     
     String []p_reservadas={"ent", "cad", "flot", "inicio", "fin",
@@ -22,64 +19,91 @@ public class a_lexico {
     a_string as=new a_string();
     a_identificador ai=new a_identificador();
     a_numeros an=new a_numeros();
+    boolean comentario_dd, comentario_da;
     
+    public a_lexico()
+    {
+        comentario_dd=true;//bandera para indicar que se inicio un comentario de doble diagonal
+        comentario_da=true;//bandera para indicar que se inicio un comentario con diagonal y asterisco
+    }
+    
+    public void comentario(String token)
+    {
+        if(token.equals("//"))
+        {
+            comentario_dd=false;
+        }
+        else
+        {
+            if(token.equals("/*"))
+            {
+                comentario_da=false;
+            }
+            else
+            {
+                if(token.equals("*/"))
+                {
+                    comentario_da=true;
+                }
+            }
+        }
+    }
     
     public String a_token(String token, int line)
     {
 //        System.out.println("token a analizar: "+token);
         String salida="";
+        comentario(token);
         
-        if(p_reservada(token))
+        if(comentario_dd && comentario_da && !token.equals("*/"))
         {
-//            salida="El token "+token+" es una palabra reservada";
-//            agregar(token,"Reservada");
-        }
-        else
-        {
-            if(as.analizar(token))
+            System.out.print(token);
+            if(p_reservada(token))
             {
-//                salida="El token "+token+" es una cadena de String";
-//                agregar(token,"cadena");
+    //            salida="El token "+token+" es una palabra reservada";
             }
             else
             {
-                if(ai.analizar(token))
+                if(as.analizar(token))
                 {
-//                    salida="El token: "+token+" es un identificador";
-//                    agregar(token,"identificador");
+    //                salida="El token "+token+" es una cadena de String";
                 }
                 else
                 {
-                    if(an.analizar(token))
+                    if(ai.analizar(token))
                     {
-//                        salida="El token: "+token+" es un numero";
-//                        agregar(token,"numero");
+    //                    salida="El token: "+token+" es un identificador";
                     }
-                    else 
+                    else
                     {
-                        if("(".equals(token) || ")".equals(token))
+                        if(an.analizar(token))
                         {
-//                            salida="El token: "+token+" es un parentesis";
-//                            agregar(token,"parentesis");
+    //                        salida="El token: "+token+" es un numero";
                         }
-                        else
+                        else 
                         {
-                           if("=".equals(token))
-                           {
-//                               salida="El token: "+token+" es un igual";
-//                               agregar(token,"igualdad");
-                           }
-                           else
-                           {
-                               if("+".equals(token) || "-".equals(token) || "*".equals(token) || "/".equals(token))
+                            if("(".equals(token) || ")".equals(token))
+                            {
+    //                            salida="El token: "+token+" es un parentesis";
+                            }
+                            else
+                            {
+                               if("=".equals(token))
                                {
-//                                   salida="El token: "+token+" es un signo";
+    //                               salida="El token: "+token+" es un igual";
                                }
                                else
                                {
-                                   salida="Error en la linea: "+line+" en el token: "+token;
+                                   if("+".equals(token) || "-".equals(token) || "*".equals(token) || "/".equals(token))
+                                   {
+    //                                   salida="El token: "+token+" es un signo";
+                                   }
+                                   else
+                                   {
+                                       salida="Error en la linea: "+line+" en el token: "+token;
+                                   }
                                }
-                           }
+                            }
                         }
                     }
                 }
@@ -87,13 +111,8 @@ public class a_lexico {
         }
         
         
+        
         return salida;
-    }
-    
-    private void agregar( String palabra, String descripcion) {
-        tabla.put(instruccion, new Tokens( palabra,
-                descripcion));
-        instruccion++;
     }
     
         
@@ -111,25 +130,5 @@ public class a_lexico {
         }
         
         return flag;
-    }
-    
-    public Hashtable tabla() {
-        return tabla;
-    }
-    
-    public class Tokens {
-
-        int clave;
-        String palabra;
-        String descripcion;
-
-        Tokens( String palabra2, String descripcion2) {
-            //clave = clave2;
-            palabra = palabra2;
-            descripcion = descripcion2;
-        }
-    }
-    
+    }   
 }
-
-
