@@ -16,11 +16,12 @@ public class a_lexico {
     String []p_reservadas={"ent", "cad", "flot", "inicio", "fin",
                                "si", "entonces", "mientras", "escribe",
                                "leer", "equi"};
-    String []op_logicos={">", ">=", "<", "<=", "><", "=="};
     a_string as=new a_string();
     a_identificador ai=new a_identificador();
     a_numeros an=new a_numeros();
     boolean comentario_dd, comentario_da;
+    tabla t=new tabla();
+    n_tabla inicio;
     
     public a_lexico()
     {
@@ -61,47 +62,62 @@ public class a_lexico {
             System.out.print(token+" ");
             if(p_reservada(token))
             {
-    //            salida="El token "+token+" es una palabra reservada";
+                t.agregar(token, "Reservada", "", "", 4);
             }
             else
             {
                 if(as.analizar(token))
                 {
-    //                salida="El token "+token+" es una cadena de String";
+                    t.agregar(token, "Constante", "Cadena", "", token.length()*2);
                 }
                 else
                 {
                     if(ai.analizar(token))
                     {
-    //                    salida="El token: "+token+" es un identificador";
+                        t.agregar(token, "Identificador", "", "", token.length()*2);
                     }
                     else
                     {
                         if(an.analizar(token))
                         {
-    //                        salida="El token: "+token+" es un numero";
+                            t.agregar(token, "Constante", "Entero", "", token.length()*2);
                         }
                         else 
                         {
                             if("(".equals(token) || ")".equals(token))
                             {
-    //                            salida="El token: "+token+" es un parentesis";
+                                t.agregar(token, "Parentesis", "", "", 2);
                             }
                             else
                             {
                                if("=".equals(token))
                                {
-    //                               salida="El token: "+token+" es un igual";
+                                   t.agregar(token, "Igualdad", "", "", 2);
                                }
                                else
                                {
                                    if("+".equals(token) || "-".equals(token) || "*".equals(token) || "/".equals(token))
                                    {
-    //                                   salida="El token: "+token+" es un signo";
+                                       t.agregar(token, "Op_aritmeticos", "", "", 2);
                                    }
                                    else
                                    {
-                                       salida="Error en la linea: "+line+" en el token: "+token;
+                                       if(token.equals(">") || token.equals(">=") || token.equals("<") || token.equals("<=") ||
+                                          token.equals("><") || token.equals("=="))
+                                       {
+                                           t.agregar(token, "Op_Logico", "", "", 2);
+                                       }
+                                       else
+                                       {
+                                           if(token.equals("{") || token.equals("}"))
+                                           {
+                                               t.agregar(token, "Corchete", "", "", 2);
+                                           }
+                                           else
+                                           {
+                                           salida="Error en la linea: "+line+" en el token: "+token;   
+                                           }
+                                       }
                                    }
                                }
                             }
@@ -112,7 +128,7 @@ public class a_lexico {
         }
         
         
-        
+    this.inicio=t.inicio;    
         return salida;
     }
     

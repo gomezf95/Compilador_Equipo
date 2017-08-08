@@ -20,6 +20,8 @@ public class interfaz extends javax.swing.JFrame {
 
     
     a_lexico al= new a_lexico();
+    tabla_simbolos ts= new tabla_simbolos();
+    n_tabla inicio;
     String codigo;
     
     public interfaz() {
@@ -248,7 +250,7 @@ public class interfaz extends javax.swing.JFrame {
                 {
                     terminal+=ter.nextToken()+"\n";
                 }
-            
+            this.inicio=al.inicio;
             //codigo para imprimir la salida en la terminal
             if(terminal.equals(""))
             {
@@ -366,8 +368,8 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        new tabla_simbolos().setVisible(true);
+        ts.g_inicio(inicio);
+        ts.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved

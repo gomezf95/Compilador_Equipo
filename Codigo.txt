@@ -1,5 +1,5 @@
-1<2
-while(valor1==valor2)
-{
-sentencias
-}
+inicio;
+cad t1;
+num n1;
+n1=1+2;
+fin;
